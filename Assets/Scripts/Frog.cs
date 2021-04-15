@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Frog : MonoBehaviour
 {
@@ -23,6 +24,10 @@ public class Frog : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        if (collision.tag == "Car")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Score.CurrentScore = 0;
+        }
     }
 }
