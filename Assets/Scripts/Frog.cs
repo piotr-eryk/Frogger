@@ -1,11 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Frog : MonoBehaviour
 {
     public Rigidbody2D frogRigibody;
+
+    public Action OnStandFinish;
 
     void Update()
     {
@@ -20,14 +24,16 @@ public class Frog : MonoBehaviour
 
     }
 
-
-
-    void OnTriggerEnter2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D otherCollider)
     {
-        if (collision.tag == "Car")
+        if (otherCollider.GetComponent<LevelEnd>() != null)
+        {
+            OnStandFinish?.Invoke();
+        }
+        else if (otherCollider.GetComponent<Car>() != null)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            Score.CurrentScore = 0;
+            GameSceneController.CurrentScore = 0;
         }
     }
 }
