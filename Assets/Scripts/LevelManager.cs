@@ -37,7 +37,7 @@ public class LevelManager
         }
         else
         {
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Level1"); //TODO load menu
         }
     }
 }

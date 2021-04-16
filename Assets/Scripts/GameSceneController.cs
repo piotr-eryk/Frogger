@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameSceneController : MonoBehaviour
 {
-    public static int CurrentScore = 100;
+    public static double CurrentScore = 100;
 
     [Header("Game")]
     public Frog frog;
+    public readonly float gameTime = 10f;
 
     [Header("UI")]
     public Text scoreText;
@@ -15,24 +17,24 @@ public class GameSceneController : MonoBehaviour
     public Text endedGameText;
 
     private bool endedLevel;
-    private float gameTimer = 10f;
     private float endGameTimer = 3f;
+    public float currentGameTime = 0f;
 
     void Start()
     {
         endedGameText.gameObject.SetActive(false);
         frog.OnStandFinish = OnStandFinish;
+        currentGameTime = gameTime;
     }
 
     void Update()
     {
         if (endedLevel == false)
         {
-            if ((gameTimer -= Time.deltaTime)<0)
-                gameTimer = 0;
+            if ((currentGameTime -= Time.deltaTime)<0)
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
-          //  CurrentScore -= (int) gameTimer;
-            timeText.text = "Time: " + Mathf.FloorToInt(gameTimer) + "s";
+            timeText.text = "Time: " + Mathf.FloorToInt(currentGameTime) + "s";
             scoreText.text = "You score: " + CurrentScore.ToString();
         }
         else
@@ -40,7 +42,6 @@ public class GameSceneController : MonoBehaviour
             endGameTimer -= Time.deltaTime;
             if (endGameTimer <= 0f)
             {
-                Debug.Log(endGameTimer);
                 LevelManager.Instance.LoadNextLevel();
             }
         }
@@ -51,6 +52,11 @@ public class GameSceneController : MonoBehaviour
         endedGameText.gameObject.SetActive(true);
         endedLevel = true;
         timeText.gameObject.SetActive(false);
-        endedGameText.text = "You won!\nYour actual score: " + Mathf.FloorToInt(CurrentScore) + " points";
+        CurrentScore += Math.Round(currentGameTime/gameTime * 100);
+        endedGameText.text = "You won!\nYou receive: " + Math.Round(currentGameTime / gameTime * 100) + " points";
+
+        Debug.Log(CurrentScore);
+
+        CurrentScore += 100;
     }
 }
