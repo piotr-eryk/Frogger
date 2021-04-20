@@ -5,44 +5,60 @@ using System;
 
 public class GameSceneController : MonoBehaviour
 {
-    public static double CurrentScore = 100;
+    public static double CurrentScore = 0f;
+    public readonly float gameTime = 10f;
 
     [Header("Game")]
     public Frog frog;
-    public readonly float gameTime = 10f;
+
+    [Header("Camera")]
+    public float cameraMoveSpeed = 3f;
+    public Camera mainCamera;
 
     [Header("UI")]
     public Text scoreText;
     public Text timeText;
     public Text endedGameText;
 
-    private bool endedLevel;
-    private float endGameTimer = 3f;
-    public float currentGameTime = 0f;
+    private bool endedLevel = false;
+    private float endGameTimer = 1f;
+    private float currentGameTime = 0f;
+    public Vector3 nextCameraPosition;
+
 
     void Start()
     {
         endedGameText.gameObject.SetActive(false);
         frog.OnStandFinish = OnStandFinish;
         currentGameTime = gameTime;
+        nextCameraPosition = mainCamera.transform.localPosition;
+        nextCameraPosition.y = 9f; //TODO assign a position of GameObject Finish
     }
 
     void Update()
     {
+        scoreText.text = "You score: " + CurrentScore.ToString();
+        currentGameTime -= Time.deltaTime;
+        timeText.text = "Time: " + Mathf.FloorToInt(currentGameTime) + "s";
+
         if (endedLevel == false)
         {
-            if ((currentGameTime -= Time.deltaTime)<0)
+            if (currentGameTime < 0)
+            {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
-            timeText.text = "Time: " + Mathf.FloorToInt(currentGameTime) + "s";
-            scoreText.text = "You score: " + CurrentScore.ToString();
+                CurrentScore = 0;
+            }
         }
         else
         {
+            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, nextCameraPosition, Time.deltaTime * cameraMoveSpeed);
             endGameTimer -= Time.deltaTime;
             if (endGameTimer <= 0f)
             {
-                LevelManager.Instance.LoadNextLevel();
+                endedGameText.gameObject.SetActive(false);
+                endedLevel = false;
+                nextCameraPosition.y += 9f;
+                endGameTimer = 1f;
             }
         }
     }
@@ -51,12 +67,8 @@ public class GameSceneController : MonoBehaviour
     {
         endedGameText.gameObject.SetActive(true);
         endedLevel = true;
-        timeText.gameObject.SetActive(false);
         CurrentScore += Math.Round(currentGameTime/gameTime * 100);
-        endedGameText.text = "You won!\nYou receive: " + Math.Round(currentGameTime / gameTime * 100) + " points";
-
-        Debug.Log(CurrentScore);
-
-        CurrentScore += 100;
+        endedGameText.text = "You receive: " + Math.Round(currentGameTime / gameTime * 100) + " points";
+        currentGameTime = gameTime;
     }
 }

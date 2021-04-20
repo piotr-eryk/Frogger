@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class Frog : MonoBehaviour
 {
     public Rigidbody2D frogRigibody;
+    public Camera playerCamera;
 
     public Action OnStandFinish;
 
@@ -21,7 +22,6 @@ public class Frog : MonoBehaviour
             frogRigibody.MovePosition(frogRigibody.position + Vector2.up);
         else if (Input.GetKeyDown(KeyCode.DownArrow))
             frogRigibody.MovePosition(frogRigibody.position + Vector2.down);
-
     }
 
     void OnTriggerEnter2D(Collider2D otherCollider)
@@ -31,6 +31,11 @@ public class Frog : MonoBehaviour
             OnStandFinish?.Invoke();
         }
         else if (otherCollider.GetComponent<Car>() != null)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameSceneController.CurrentScore = 0;
+        }
+        else if (otherCollider.CompareTag("River"))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             GameSceneController.CurrentScore = 0;
