@@ -69,6 +69,6 @@ public class GameSceneController : MonoBehaviour
         endedLevel = true;
         CurrentScore += Math.Round(currentGameTime/gameTime * 100);
         endedGameText.text = "You receive: " + Math.Round(currentGameTime / gameTime * 100) + " points";
-        currentGameTime = gameTime;
+        currentGameTime = gameTime*10;
     }
 }

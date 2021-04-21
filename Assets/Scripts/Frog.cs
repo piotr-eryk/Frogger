@@ -8,9 +8,9 @@ using UnityEngine.UI;
 public class Frog : MonoBehaviour
 {
     public Rigidbody2D frogRigibody;
-    public Camera playerCamera;
 
     public Action OnStandFinish;
+
 
     void Update()
     {
@@ -24,8 +24,14 @@ public class Frog : MonoBehaviour
             frogRigibody.MovePosition(frogRigibody.position + Vector2.down);
     }
 
+    List<string> contacts = new List<string>();
     void OnTriggerEnter2D(Collider2D otherCollider)
     {
+        contacts.Add(otherCollider.gameObject.name);
+
+        Debug.Log(contacts.Count);
+
+
         if (otherCollider.GetComponent<LevelEnd>() != null)
         {
             OnStandFinish?.Invoke();
@@ -35,10 +41,22 @@ public class Frog : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             GameSceneController.CurrentScore = 0;
         }
-        else if (otherCollider.CompareTag("River"))
+        else if (!contacts.Contains("testLog(Clone)") && contacts.Contains("River"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            GameSceneController.CurrentScore = 0;
+            Debug.Log("ded³eœ bez drewienka");
+          //  SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //   GameSceneController.CurrentScore = 0;
         }
+    }
+
+    void OnTriggerExit2D(Collider2D otherCollider)
+    {
+        contacts.Remove(otherCollider.gameObject.name);
+
+        if (contacts.Contains("River"))
+        {
+            Debug.Log("ded³eœ po zejœciu z drewienka");
+        }
+
     }
 }

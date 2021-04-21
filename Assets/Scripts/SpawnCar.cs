@@ -7,7 +7,7 @@ public class SpawnCar : MonoBehaviour
     public float spawnDelay = 0.5f;
     public GameObject carPrefab;
 
-    public Transform[] spawnPoints;
+    public Transform[] carSpawnPoints;
 
     float nextSpawnCar = 3f;
 
@@ -23,10 +23,10 @@ public class SpawnCar : MonoBehaviour
 
     void CreateCar()
     {
-        int randomSpawn = Random.Range(0, spawnPoints.Length);
-        Transform spawnPoint = spawnPoints[randomSpawn];
+        int randomSpawn = Random.Range(0, carSpawnPoints.Length);
+        Transform carSpawnPoint = carSpawnPoints[randomSpawn];
 
-        GameObject carObject = Instantiate(carPrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject carObject = Instantiate(carPrefab, carSpawnPoint.position, carSpawnPoint.rotation);
         Destroy(carObject.gameObject, 5);
 
     }
