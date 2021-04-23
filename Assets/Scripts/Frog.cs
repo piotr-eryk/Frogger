@@ -11,6 +11,10 @@ public class Frog : MonoBehaviour
 
     public Action OnStandFinish;
 
+    private bool receivePoints = false;
+
+    public List<GameObject> objectsForScore = new List<GameObject>();
+
 
     void Update()
     {
@@ -29,9 +33,6 @@ public class Frog : MonoBehaviour
     {
         contacts.Add(otherCollider.gameObject.name);
 
-        Debug.Log(contacts.Count);
-
-
         if (otherCollider.GetComponent<LevelEnd>() != null)
         {
             OnStandFinish?.Invoke();
@@ -47,6 +48,12 @@ public class Frog : MonoBehaviour
           //  SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         //   GameSceneController.CurrentScore = 0;
         }
+        else if(otherCollider.CompareTag ("ScoreObject") && !receivePoints)
+        {
+            Debug.Log("More points!");
+            receivePoints = true;
+        }
+        
     }
 
     void OnTriggerExit2D(Collider2D otherCollider)
@@ -56,6 +63,11 @@ public class Frog : MonoBehaviour
         if (contacts.Contains("River"))
         {
             Debug.Log("ded³eœ po zejœciu z drewienka");
+        }
+        else if (otherCollider.CompareTag("ScoreObject") && receivePoints)
+        {
+            Debug.Log("Delete this collider");
+            receivePoints = false;
         }
 
     }

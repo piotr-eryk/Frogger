@@ -126,7 +126,11 @@ MonoBehaviour:
   logRigidbody: {fileID: 1775533144481189063}
   minSpeed: 4
   maxSpeed: 6
-  River: {fileID: 1497382685359469496, guid: 81b1d38bc1437d14dbc3278d33ba3d5d, type: 3}
+  minTimeToDip: 0.2
+  maxTimeToDip: 0.5
+  fadeSpeed: 2
+  logCollider: {fileID: 8784704291225309646}
+  surfaceTime: 1
 --- !u!50 &1775533144481189063
 Rigidbody2D:
   serializedVersion: 4
