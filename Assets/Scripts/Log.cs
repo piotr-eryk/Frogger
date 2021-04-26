@@ -32,9 +32,7 @@ public class Log : MonoBehaviour
         logRigidbody.MovePosition(logRigidbody.position + forward * Time.fixedDeltaTime * logSpeed);
 
         Invoke(nameof(DipLog), logWaitTime);
-        Debug.Log(logWaitTime);
         Invoke(nameof(DipLog2), logWaitTime+surfaceTime+fadeSpeed);
-        Debug.Log(logWaitTime);
     }
 
     void DipLog()
@@ -44,20 +42,22 @@ public class Log : MonoBehaviour
         GetComponent<SpriteRenderer>().material.color = color;
         logCollider = GetComponent<Collider2D>();
 
-        //when gameobject is faded do this
-        logCollider.enabled = !logCollider.enabled;
+        if (color.a == 0)
+            logCollider.enabled = !logCollider.enabled;
     }
 
     void DipLog2()
     {
         Color color = GetComponent<SpriteRenderer>().material.color;
         color.a += Time.deltaTime * 5f;
-        if (color.a > 1)
+        logCollider = GetComponent<Collider2D>();
+        if (color.a >= 1)
+        {
             color.a = 1;
+            logCollider.enabled = !logCollider.enabled;
+        }
 
         GetComponent<SpriteRenderer>().material.color = color;
-        logCollider = GetComponent<Collider2D>();
-        logCollider.enabled = !logCollider.enabled;
     }
 
 }

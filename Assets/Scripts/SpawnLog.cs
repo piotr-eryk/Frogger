@@ -4,30 +4,34 @@ using UnityEngine;
 
 public class SpawnLog : MonoBehaviour
 {
-    public float spawnDelay = 0.5f;
+    public float nextSpawnDelay = 0.5f;
+    public float firstSpawnDelay = 15f;
     public GameObject logPrefab;
 
     public Transform[] logSpawnPoints;
 
-    float nextSpawnLog = 3f;
 
-    void Update()
+
+    void FixedUpdate()
     {
-
-        if (nextSpawnLog <= Time.time)
+        if (firstSpawnDelay <= Time.time)
         {
             CreateLog();
-            nextSpawnLog = Time.time + spawnDelay;
+            firstSpawnDelay = Time.time + nextSpawnDelay;
         }
     }
 
     void CreateLog()
     {
-        int randomSpawn = Random.Range(0, logSpawnPoints.Length);
-        Transform logSpawnPoint = logSpawnPoints[randomSpawn];
+        for (int i=0; i< logSpawnPoints.Length; i++)
+        {
+            Debug.Log(i);
+            Transform logSpawnPoint = logSpawnPoints[i];
 
-        GameObject logObject = Instantiate(logPrefab, logSpawnPoint.position, logSpawnPoint.rotation);
-        Destroy(logObject.gameObject, 5);
+            GameObject logObject = Instantiate(logPrefab, logSpawnPoint.position, logSpawnPoint.rotation);
+            Destroy(logObject.gameObject, nextSpawnDelay);
+        }
+
 
     }
 }
