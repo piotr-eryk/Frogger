@@ -19,9 +19,9 @@ public class LevelManager
         }
     }
 
-    private int level;
+    private int level = 1;
 
-    private const int MAXIMUM_LEVEL = 1;
+    private const int MAXIMUM_LEVEL = 3;
     public void LoadFirstLevel()
     {
         level = 1;
@@ -37,7 +37,7 @@ public class LevelManager
         }
         else
         {
-            SceneManager.LoadScene("Level1"); //TODO load menu
+            SceneManager.LoadScene("Menu");
         }
     }
 }

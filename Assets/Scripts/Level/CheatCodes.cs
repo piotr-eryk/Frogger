@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,11 @@ public class CheatCodes : MonoBehaviour
     private string[] cheatCode;
     private int index;
 
+    public Action OnStandFinishGame;
+
     void Start()
     {
-        cheatCode = new string[] { "m", "a", "r", "i", "u", "s", "z" };
+        cheatCode = new string[] { "w", "i", "n", "g", "a", "m", "e" };
         index = 0;
     }
 
@@ -29,7 +32,9 @@ public class CheatCodes : MonoBehaviour
 
         if (index == cheatCode.Length)
         {
-            Debug.Log("Chest code activated");
+            Debug.Log("Cheat code activated");
+            OnStandFinishGame?.Invoke();
+            index = 0;
         }
     }
 }

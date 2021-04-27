@@ -9,15 +9,14 @@ public class SpawnCar : MonoBehaviour
 
     public Transform[] carSpawnPoints;
 
-    float nextSpawnCar = 3f;
+    float firstSpawnCar = 0.1f;
 
     void Update()
     {
-
-        if (nextSpawnCar <= Time.time)
+        if (firstSpawnCar <= Time.time)
         {
             CreateCar();
-            nextSpawnCar = Time.time + spawnDelay;
+            firstSpawnCar = Time.time + spawnDelay;
         }
     }
 
@@ -28,6 +27,5 @@ public class SpawnCar : MonoBehaviour
 
         GameObject carObject = Instantiate(carPrefab, carSpawnPoint.position, carSpawnPoint.rotation);
         Destroy(carObject.gameObject, 5);
-
     }
 }

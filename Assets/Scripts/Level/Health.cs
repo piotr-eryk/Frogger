@@ -9,7 +9,6 @@ public class Health : MonoBehaviour
     private int lifeNumber;
     private bool isDead;
 
-
     void Start()
     {
         lifeNumber = hearts.Length;
