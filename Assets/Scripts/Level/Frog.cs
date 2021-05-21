@@ -7,12 +7,16 @@ using UnityEngine.UI;
 
 public class Frog : MonoBehaviour
 {
+    public static float xBoundary = 10f;
+
     public Rigidbody2D frogRigibody;
 
     public Action OnStandFinishLevel;
     public Action OnStandFinishGame;
 
     public List<GameObject> frogSpawnPoints = new List<GameObject>();
+
+
 
     private bool River = false;
     private bool Log = false;
@@ -32,6 +36,16 @@ public class Frog : MonoBehaviour
         {
             FrogIsDead();
             River = false;
+        }
+
+       
+        if (transform.position.x < -xBoundary)
+        {
+            transform.position = new Vector3(-xBoundary, transform.position.y, transform.position.z);
+        }
+        else if (transform.position.x > xBoundary)
+        {
+            transform.position = new Vector3(xBoundary, transform.position.y, transform.position.z);
         }
     }
 

@@ -24,13 +24,16 @@ public class GameSceneController : MonoBehaviour
     public Text timeText;
     public Text endedGameText;
 
+    [HideInInspector]
+    public Vector3 nextCameraPosition;
 
     private bool endedLevel = false;
     private bool endedGame = false;
     private float endGameTimer = 1f;
     private float endFinishTimer = 3f;
-    private Vector3 nextCameraPosition;
     private int finishNumber = 1;
+
+
 
     void Start()
     {
@@ -39,14 +42,12 @@ public class GameSceneController : MonoBehaviour
 
     void Update()
     {
+        UpdateScore();
+
         if (Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
         }
-
-        scoreText.text = "You score: " + CurrentScore.ToString();
-        CurrentGameTime -= Time.deltaTime;
-        timeText.text = "Time: " + Mathf.FloorToInt(CurrentGameTime) + "s";
 
         if (endedLevel == false)
         {
@@ -111,5 +112,11 @@ public class GameSceneController : MonoBehaviour
 
         endedGameText.gameObject.SetActive(false);
         CurrentGameTime = gameTime;
+    }
+    private void UpdateScore()
+    {
+        scoreText.text = "You score: " + CurrentScore.ToString();
+        CurrentGameTime -= Time.deltaTime;
+        timeText.text = "Time: " + Mathf.FloorToInt(CurrentGameTime) + "s";
     }
 }
